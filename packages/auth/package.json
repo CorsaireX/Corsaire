@@ -11,9 +11,7 @@
     "./email": "./email.ts"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "jose": "^6.2.3",
-    "resend": "^6.16.0"
+    "jose": "^6.2.3"
   },
   "devDependencies": {
     "next": "*"

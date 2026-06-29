@@ -1,31 +1,41 @@
-import { Resend } from 'resend';
+// Use direct Resend REST API instead of the SDK to avoid @react-email/render dependency
+// which is incompatible with Cloudflare Edge Runtime
 
-// Only instantiate if RESEND_API_KEY is available (to avoid crashes if missing)
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const RESEND_API_URL = 'https://api.resend.com/emails';
 
 export async function sendOTP(email: string, otp: string) {
-  if (!resend) {
+  const apiKey = process.env.RESEND_API_KEY;
+  
+  if (!apiKey) {
     console.warn(`[OTP] Resend API Key not found. OTP for ${email} is: ${otp}`);
     return true; // Fake success for local dev without key
   }
 
   try {
-    const { error } = await resend.emails.send({
-      from: 'Corsaire <noreply@corsaire.my>',
-      to: email,
-      subject: 'Your Corsaire Verification Code',
-      html: `
-        <div style="font-family: sans-serif; padding: 20px;">
-          <h2>Corsaire Verification</h2>
-          <p>Your verification code is:</p>
-          <h1 style="letter-spacing: 5px; color: #333;">${otp}</h1>
-          <p>This code will expire in 15 minutes.</p>
-        </div>
-      `,
+    const response = await fetch(RESEND_API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Corsaire <noreply@corsaire.my>',
+        to: email,
+        subject: 'Your Corsaire Verification Code',
+        html: `
+          <div style="font-family: sans-serif; padding: 20px;">
+            <h2>Corsaire Verification</h2>
+            <p>Your verification code is:</p>
+            <h1 style="letter-spacing: 5px; color: #333;">${otp}</h1>
+            <p>This code will expire in 15 minutes.</p>
+          </div>
+        `,
+      }),
     });
 
-    if (error) {
-      console.error('Resend Error:', error);
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Resend Error:', errorData);
       return false;
     }
     
