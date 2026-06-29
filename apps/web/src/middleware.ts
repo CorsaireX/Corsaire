@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
       if (payload.role !== 'Founder') {
         return NextResponse.redirect(new URL('/dashboard', request.url));
       }
-    } catch (error) {
+    } catch {
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }

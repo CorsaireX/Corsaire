@@ -5,7 +5,8 @@ import { hashPassword } from '@corsaire/auth/password';
 export async function POST(request: Request) {
   try {
     const payload = await request.json();
-    let { email, password, secretPhrase, key } = payload;
+    let { email } = payload;
+    const { password, secretPhrase, key } = payload;
 
     if (!email || !password || !secretPhrase || !key) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

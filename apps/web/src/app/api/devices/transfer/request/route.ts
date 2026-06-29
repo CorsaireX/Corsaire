@@ -108,7 +108,7 @@ export async function POST(request: Request) {
     // Save the new device metadata to Devices table if it doesn't exist yet
     // The previous implementation of /api/devices/bind also does this, but for transfer we might just wait until verify.
     // For now, let's insert it into Devices table so the constraint on LicenseDevices works later.
-    const { error: deviceErr } = await supabaseAdmin
+    await supabaseAdmin
       .from('Devices')
       .insert([{
         UserID: session.userId,
