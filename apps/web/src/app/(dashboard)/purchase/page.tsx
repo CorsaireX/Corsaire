@@ -75,3 +75,5 @@ export default async function PurchasePage() {
     </div>
   );
 }
+
+export const runtime = 'edge';

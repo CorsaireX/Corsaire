@@ -87,3 +87,5 @@ export default async function HighTablePage() {
     </div>
   );
 }
+
+export const runtime = 'edge';

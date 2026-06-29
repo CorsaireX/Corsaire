@@ -33,3 +33,5 @@ export default async function CheckoutPage({ params }: { params: { planId: strin
     </div>
   );
 }
+
+export const runtime = 'edge';
