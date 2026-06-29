@@ -1,0 +1,9 @@
+{
+  "name": "@corsaire/database",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  }
+}

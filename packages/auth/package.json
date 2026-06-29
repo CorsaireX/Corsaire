@@ -1,0 +1,13 @@
+{
+  "name": "@corsaire/auth",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./password": "./password.ts",
+    "./jwt": "./jwt.ts",
+    "./session": "./session.ts",
+    "./email": "./email.ts"
+  }
+}
